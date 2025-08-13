@@ -179,7 +179,7 @@ export function getSellingPlansFromDiscountDeliveryOptions(
       return {
         // If the ID is for anew delivery option, dont include it
         ...(id.includes(NEW_DELIVERY_OPTION_ID) ? {} : {id}),
-        name: information.sellingPlanName,
+        name: 'Gold Benfits + Monthly Deliveries',
         options: [information.option],
         category: 'SUBSCRIPTION' as SellingPlanCategory,
         billingPolicy: {
@@ -189,7 +189,10 @@ export function getSellingPlansFromDiscountDeliveryOptions(
           },
         },
         deliveryPolicy: {
-          recurring: recurringDeliveryAndBillingPolicy,
+          recurring: {
+            interval: 'MONTH',
+            intervalCount: 1,
+          },
         },
         pricingPolicies:
           discountValue && offerDiscount ? [pricingPolicies] : [],
