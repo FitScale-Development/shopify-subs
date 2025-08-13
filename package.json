@@ -136,15 +136,6 @@
     "graphql": "16.8.1"
   },
   "author": "shopify",
-  "pnpm": {},
-  "overrides": {
-    "eslint": "8.57.1",
-    "@babel/eslint-parser": {
-      "eslint": "8.57.1"
-    },
-    "@shopify/eslint-plugin": {
-      "eslint": "8.57.1"
-    }
-  }
+  "pnpm": {}
   
 }
