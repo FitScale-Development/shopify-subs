@@ -183,7 +183,10 @@ export function getSellingPlansFromDiscountDeliveryOptions(
         options: [information.option],
         category: 'SUBSCRIPTION' as SellingPlanCategory,
         billingPolicy: {
-          recurring: recurringDeliveryAndBillingPolicy,
+          recurring: {
+            interval: 'MONTH',
+            intervalCount: 3,
+          },
         },
         deliveryPolicy: {
           recurring: recurringDeliveryAndBillingPolicy,

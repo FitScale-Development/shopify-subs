@@ -2,7 +2,7 @@
 
 name = "subscription-app"
 client_id = "f2114f49e6d0a045632ae427cc1b454e"
-application_url = "https://psp-materials-comments-pipes.trycloudflare.com"
+application_url = "https://miscellaneous-rational-specialized-coalition.trycloudflare.com"
 embedded = true
 
 [build]
@@ -15,9 +15,9 @@ scopes = "customer_read_orders,read_locales,read_locations,read_themes,write_met
 
 [auth]
 redirect_urls = [
-  "https://psp-materials-comments-pipes.trycloudflare.com/auth/callback",
-  "https://psp-materials-comments-pipes.trycloudflare.com/auth/shopify/callback",
-  "https://psp-materials-comments-pipes.trycloudflare.com/api/auth/callback"
+  "https://miscellaneous-rational-specialized-coalition.trycloudflare.com/auth/callback",
+  "https://miscellaneous-rational-specialized-coalition.trycloudflare.com/auth/shopify/callback",
+  "https://miscellaneous-rational-specialized-coalition.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
