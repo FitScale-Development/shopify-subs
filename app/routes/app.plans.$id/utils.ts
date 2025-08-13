@@ -185,7 +185,7 @@ export function getSellingPlansFromDiscountDeliveryOptions(
         billingPolicy: {
           recurring: {
             interval: 'MONTH',
-            intervalCount: 12,
+            intervalCount: 1,
           },
         },
         deliveryPolicy: {
