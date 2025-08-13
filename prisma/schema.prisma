@@ -1,21 +1,19 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["tracing"]
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-provider = "sqlite"
-url      = "file:./data.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
+
 model Session {
-  id       String  @id
-  shop     String
-  state    String
-  isOnline Boolean @default(false)
-    scope      String?
+  id            String    @id
+  shop          String
+  state         String
+  isOnline      Boolean   @default(false)
+  scope         String?
   expires       DateTime?
   accessToken   String
   userId        BigInt?
@@ -27,7 +25,6 @@ model Session {
   collaborator  Boolean?  @default(false)
   emailVerified Boolean?  @default(false)
 }
-
 
 model BillingSchedule {
   id        Int      @id @default(autoincrement())
