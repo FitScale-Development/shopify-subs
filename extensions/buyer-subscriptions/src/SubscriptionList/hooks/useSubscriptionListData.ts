@@ -21,6 +21,9 @@ export function useSubscriptionListData() {
     });
   }, [query]);
 
+  console.log(response.error?.message);
+  console.log(response);
+
   const refetchSubscriptionListData = useCallback(() => {
     query(SubscriptionListQuery, {
       first: 20,
@@ -35,6 +38,7 @@ export function useSubscriptionListData() {
 }
 
 function formatData(data?: SubscriptionListQueryData) {
+  console.log(data);
   if (!data) return undefined;
 
   return {

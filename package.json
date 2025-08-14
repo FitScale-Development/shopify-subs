@@ -22,7 +22,7 @@
     "test:ci:admin-subs-action": "LC_ALL=en_US.UTF-8 dotenv -c ci vitest extensions/admin-subs-action",
     "test:ci:thank-you-page": "LC_ALL=en_US.UTF-8 dotenv -c ci vitest extensions/thank-you-page",
     "type-check": "tsc --project tsconfig.json && tsc --project extensions/buyer-subscriptions/tsconfig.json && tsc --project extensions/admin-subs-action/tsconfig.json",
-    "graphql-codegen": "graphql-codegen",
+    "`graphql-codegen`": "graphql-codegen",
     "graphql-codegen-customer": "graphql-codegen --project shopifyCustomerApi",
     "graphql-codegen-admin-ext": "graphql-codegen --project adminSubsActionExtension"
   },

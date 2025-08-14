@@ -19,7 +19,7 @@ export function SubscriptionList() {
   const {data, loading, error, refetchSubscriptionListData} =
     useSubscriptionListData();
 
-  if (loading && !data) {
+  if (loading || !data) {
     return <SubscriptionListLoadingState />;
   }
 

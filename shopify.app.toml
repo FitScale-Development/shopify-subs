@@ -2,7 +2,7 @@
 
 name = "subscription-app"
 client_id = "f2114f49e6d0a045632ae427cc1b454e"
-application_url = "https://miscellaneous-rational-specialized-coalition.trycloudflare.com"
+application_url = "https://shopify-subs.vercel.app"
 embedded = true
 
 [build]
@@ -11,13 +11,13 @@ include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "customer_read_orders,read_locales,read_locations,read_themes,write_metaobject_definitions,write_metaobjects,write_orders,write_products,write_translations,read_customer_payment_methods,read_own_subscription_contracts,write_own_subscription_contracts,write_customers,read_all_orders"
+scopes = "customer_read_orders,read_locales,read_locations,read_themes,write_metaobject_definitions,write_metaobjects,write_orders,write_products,write_translations,read_customer_payment_methods,read_own_subscription_contracts,write_own_subscription_contracts,write_customers,read_all_orders,unauthenticated_read_product_listings,unauthenticated_read_customers,customer_read_orders,read_own_subscription_contracts,customer_read_customers,customer_read_own_subscription_contracts,customer_write_own_subscription_contracts"
 
 [auth]
 redirect_urls = [
-  "https://miscellaneous-rational-specialized-coalition.trycloudflare.com/auth/callback",
-  "https://miscellaneous-rational-specialized-coalition.trycloudflare.com/auth/shopify/callback",
-  "https://miscellaneous-rational-specialized-coalition.trycloudflare.com/api/auth/callback"
+  "https://jungle-rendered-personals-listen.trycloudflare.com/auth/callback",
+  "https://jungle-rendered-personals-listen.trycloudflare.com/auth/shopify/callback",
+  "https://jungle-rendered-personals-listen.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
