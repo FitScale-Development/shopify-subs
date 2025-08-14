@@ -11,7 +11,15 @@ export const action = async ({request}: ActionFunctionArgs) => {
 
   logger.info({topic, shop, payload}, 'Received webhook');
 
-  console.log('Subscription Payload:', JSON.stringify(payload, null, 2));
+  try {
+    await fetch('https://hydro-tracking.vercel.app/api/subscription', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload, null, 2),
+    });
+  } catch (err) {
+    logger.error(err, 'Failed to send rawBody to hydro-tracking');
+  }
 
   const {admin_graphql_api_origin_order_id: orderId} = payload;
   if (orderIsFromCheckout(orderId)) {
