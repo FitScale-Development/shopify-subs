@@ -11,6 +11,8 @@ export const action = async ({request}: ActionFunctionArgs) => {
 
   logger.info({topic, shop, payload}, 'Received webhook');
 
+  console.log('Subscription Payload:', JSON.stringify(payload, null, 2));
+
   const {admin_graphql_api_origin_order_id: orderId} = payload;
   if (orderIsFromCheckout(orderId)) {
     const emailParams: Jobs.Parameters<Webhooks.SubscriptionContractEvent> = {
