@@ -6,8 +6,8 @@ export const action = async ({request}: ActionFunctionArgs) => {
   const {topic, shop, payload} = await authenticate.webhook(request);
 
   const url = new URL('https://hydro-tracking.vercel.app/api/event');
-  url.searchParams.append('event', 'pause');
-  url.searchParams.append('path', '/');
+  url.searchParams.append('event', 'INIT');
+  url.searchParams.append('path', '/shopify');
   url.searchParams.append('senderId', 'asdf');
 
   try {
