@@ -1,19 +1,23 @@
-import {json, type ActionFunctionArgs} from '@remix-run/node';
+import {json, type LoaderFunctionArgs} from '@remix-run/node';
 import {jobs, ScheduleShopsToChargeBillingCyclesJob} from '~/jobs';
 
-export const action = async ({request}: ActionFunctionArgs) => {
-  if (request.method !== 'POST') {
-    return json({error: 'Method not allowed'}, {status: 405});
-  }
+// Changed from 'action' to 'loader' to handle GET requests from Vercel Cron
+export const loader = async ({request}: LoaderFunctionArgs) => {
+  // Vercel Cron sends a GET, so no need to check the method anymore.
 
   try {
-    // This job's constructor expects the payload properties directly.
+    console.log(
+      'Cron job triggered: Enqueuing ScheduleShopsToChargeBillingCyclesJob',
+    );
+
+    // This job will enqueue the ChargeBillingCyclesJob for all active shops for the current date
     await jobs.enqueue(
       new ScheduleShopsToChargeBillingCyclesJob({
         targetDate: new Date().toISOString(),
       }),
     );
 
+    console.log('Successfully enqueued ScheduleShopsToChargeBillingCyclesJob.');
     return json({status: 'success'}, {status: 200});
   } catch (err) {
     const error = err instanceof Error ? err : new Error(String(err));
