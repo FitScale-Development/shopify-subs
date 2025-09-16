@@ -34,12 +34,15 @@ export class ChargeBillingCyclesJob extends Job<
     });
 
     const json = await response.json();
+
+    console.log(json);
+
     const subscriptionBillingCycleBulkCharge =
       json.data?.subscriptionBillingCycleBulkCharge;
 
     if (!subscriptionBillingCycleBulkCharge) {
       this.logger.error(
-        json,
+        {response: json},
         'Received invalid response from mutation. Expected property `subscriptionBillingCycleBulkCharge`, received...',
       );
 
@@ -54,6 +57,7 @@ export class ChargeBillingCyclesJob extends Job<
       );
     } else {
       this.logger.error(
+        {userErrors},
         `Failed to create subscriptionBillingCycleBulkCharge job`,
       );
 
