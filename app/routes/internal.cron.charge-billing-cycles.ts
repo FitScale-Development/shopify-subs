@@ -10,10 +10,16 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
       'Cron job triggered: Enqueuing ScheduleShopsToChargeBillingCyclesJob',
     );
 
+    // --- TEMPORARY FIX: Set the targetDate to yesterday ---
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    // --- END TEMPORARY FIX ---
+
     // This job will enqueue the ChargeBillingCyclesJob for all active shops for the current date
     await jobs.enqueue(
       new ScheduleShopsToChargeBillingCyclesJob({
-        targetDate: new Date().toISOString(),
+        targetDate: yesterday.toISOString(),
       }),
     );
 
