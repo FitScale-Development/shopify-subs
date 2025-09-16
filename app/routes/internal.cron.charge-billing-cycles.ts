@@ -17,11 +17,11 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     const shops = await getShopsWithBillingEnabled();
     console.log(`Found ${shops.length} active shops to process.`);
 
-    // Set a wide date range to catch any and all missed billings from the last 30 days up to today.
+    // Set a 7-day date range to catch any missed billings, respecting Shopify's API limit.
     const today = new Date();
-    const thirtyDaysAgo = new Date(today);
-    thirtyDaysAgo.setDate(today.getDate() - 30);
-    thirtyDaysAgo.setUTCHours(0, 0, 0, 0);
+    const sixDaysAgo = new Date(today);
+    sixDaysAgo.setDate(today.getDate() - 6);
+    sixDaysAgo.setUTCHours(0, 0, 0, 0);
 
     const endDate = new Date(today);
     endDate.setUTCHours(23, 59, 59, 999);
@@ -34,7 +34,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
         new ChargeBillingCyclesJob({
           shop: shop.shop,
           payload: {
-            startDate: thirtyDaysAgo.toISOString(),
+            startDate: sixDaysAgo.toISOString(),
             endDate: endDate.toISOString(),
           },
         }),
