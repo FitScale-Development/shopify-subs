@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/internal/jobs/run",
+      "schedule": "0 5 * * *",
+      "body": {
+        "jobName": "ScheduleShopsToChargeBillingCyclesJob",
+        "parameters": {}
+      }
+    }
+  ]
+}
