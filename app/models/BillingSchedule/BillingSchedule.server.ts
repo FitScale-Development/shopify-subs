@@ -39,3 +39,18 @@ async function upsert(
     update: {active, timezone},
   });
 }
+
+export async function getShopsWithBillingEnabled() {
+  // This function should return all shops that have an active billing schedule.
+  // The logic might vary based on your exact database schema, but this is a common approach.
+  const shops = await prisma.billingSchedule.findMany({
+    where: {
+      active: true, // Assuming you have a flag to indicate if the shop's billing is active
+    },
+    select: {
+      shop: true,
+    },
+  });
+
+  return shops;
+}

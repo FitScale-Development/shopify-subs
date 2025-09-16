@@ -1,33 +1,56 @@
 import {json, type LoaderFunctionArgs} from '@remix-run/node';
-import {jobs, ScheduleShopsToChargeBillingCyclesJob} from '~/jobs';
+import {jobs, ChargeBillingCyclesJob} from '~/jobs';
+import {getShopsWithBillingEnabled} from '~/models/BillingSchedule/BillingSchedule.server';
 
-// Changed from 'action' to 'loader' to handle GET requests from Vercel Cron
+/**
+ * This cron job is a direct trigger to bill all pending subscriptions for all active shops.
+ * It bypasses the daily scheduling logic and instead finds every shop
+ * and tells it to process any billing cycles due in the last 30 days.
+ * This is useful for clearing a backlog of failed or missed payments.
+ */
 export const loader = async ({request}: LoaderFunctionArgs) => {
-  // Vercel Cron sends a GET, so no need to check the method anymore.
-
   try {
     console.log(
-      'Cron job triggered: Enqueuing ScheduleShopsToChargeBillingCyclesJob',
+      'Force-billing cron job triggered: Attempting to bill all past-due cycles for ALL shops.',
     );
 
-    // --- TEMPORARY FIX: Set the targetDate to yesterday ---
+    const shops = await getShopsWithBillingEnabled();
+    console.log(`Found ${shops.length} active shops to process.`);
+
+    // Set a wide date range to catch any and all missed billings from the last 30 days up to today.
     const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-    // --- END TEMPORARY FIX ---
+    const thirtyDaysAgo = new Date(today);
+    thirtyDaysAgo.setDate(today.getDate() - 30);
+    thirtyDaysAgo.setUTCHours(0, 0, 0, 0);
 
-    // This job will enqueue the ChargeBillingCyclesJob for all active shops for the current date
-    await jobs.enqueue(
-      new ScheduleShopsToChargeBillingCyclesJob({
-        targetDate: yesterday.toISOString(),
-      }),
+    const endDate = new Date(today);
+    endDate.setUTCHours(23, 59, 59, 999);
+
+    for (const shop of shops) {
+      console.log(
+        `Enqueuing immediate ChargeBillingCyclesJob for shop: ${shop.shop}`,
+      );
+      await jobs.enqueue(
+        new ChargeBillingCyclesJob({
+          shop: shop.shop,
+          payload: {
+            startDate: thirtyDaysAgo.toISOString(),
+            endDate: endDate.toISOString(),
+          },
+        }),
+      );
+    }
+
+    console.log(
+      'Successfully enqueued all past-due billing jobs for all shops.',
     );
-
-    console.log('Successfully enqueued ScheduleShopsToChargeBillingCyclesJob.');
-    return json({status: 'success'}, {status: 200});
+    return json(
+      {status: 'success', shopsProcessed: shops.length},
+      {status: 200},
+    );
   } catch (err) {
     const error = err instanceof Error ? err : new Error(String(err));
-    console.error('Error in cron job:', error.message);
+    console.error('Error in force-billing cron job:', error.message);
     return json({status: 'failure', error: error.message}, {status: 500});
   }
 };
