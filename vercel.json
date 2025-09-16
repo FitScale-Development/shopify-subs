@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/internal/cron/charge-billing-cycles",
-      "schedule": "*/10 * * * *"
+      "schedule": "0 0 * * *"
     }
   ]
 }
